@@ -1,0 +1,89 @@
+@startuml
+class com.example.jdbcfx.Music {
+- int id
+- int singer
+- String title
+- int year
++ int getId()
++ int getSinger()
++ String getTitle()
++ int getYear()
++ void setId(int)
++ void setSinger(int)
++ void setTitle(String)
++ void setYear(int)
++ void initEntity()
++ void addOne()
++ void updateOne(String,String)
++ Entity searchEntity(int)
++ ObservableList<Entity> listAll()
+}
+abstract class com.example.jdbcfx.Entity {
+~ DataAccess dataAccess
+~ int nVars
+~ String[] varNames
+~ ObservableList<Entity> allEntities
++ int getnVars()
++ String[] getVarNames()
++ {abstract}void initEntity()
++ {abstract}void addOne()
++ {abstract}void updateOne(String,String)
++ {abstract}Entity searchEntity(int)
++ {abstract}ObservableList listAll()
+}
+class com.example.jdbcfx.Application {
++ void start(Stage)
++ {static} void main(String[])
+}
+class com.example.jdbcfx.MusicData {
++ void insertRow(Entity)
++ void updataRow(Entity)
++ void setData()
++ ArrayList<String[]> selectTable()
++ String[] selectById(int)
++ void commitChange()
+}
+class com.example.jdbcfx.Controller {
+- Button searchbtn
+- TableView<Music> table
+- TextField idTxt
+~ ObservableList<Music> data
+~ String[] cols
++ void listAll(ActionEvent)
++ void listOne(ActionEvent)
++ void loadAll(Entity)
++ void loadOne(Entity,int)
+- void errorWarning(String)
+}
+abstract class com.example.jdbcfx.DataAccess {
+- String DRIVER
+- String DATABASE_URL
+- String USERNAME
+- String PASSWORD
+~ Connection conn
+~ Statement st
+~ PreparedStatement selectAllPst
+~ ResultSet rs
+~ ResultSetMetaData md
+~ String[] colNames
+~ ArrayList<String[]> data
+~ int nCols
+~ int[] dataTypes
++ void openConnection()
++ void closeConnection()
++ void setTableVars()
++ String[] getRow()
++ Object parseData(int,String)
++ {abstract}void insertRow(Entity)
++ {abstract}void updataRow(Entity)
++ {abstract}ArrayList<String[]> selectTable()
++ {abstract}void setData()
++ {abstract}String[] selectById(int)
++ {abstract}void commitChange()
+}
+
+
+com.example.jdbcfx.Entity <|-- com.example.jdbcfx.Music
+com.example.jdbcfx.Application <|-- com.example.jdbcfx.Application
+com.example.jdbcfx.DataAccess <|-- com.example.jdbcfx.MusicData
+@enduml
