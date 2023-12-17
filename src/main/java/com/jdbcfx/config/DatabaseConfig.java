@@ -1,4 +1,4 @@
-package com.jdbcfx;
+package com.jdbcfx.config;
 
 import java.io.IOException;
 import java.io.InputStream;

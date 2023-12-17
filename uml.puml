@@ -1,24 +1,37 @@
 @startuml
-class com.example.jdbcfx.Music {
-- int id
-- int singer
-- String title
-- int year
-+ int getId()
-+ int getSinger()
-+ String getTitle()
-+ int getYear()
-+ void setId(int)
-+ void setSinger(int)
-+ void setTitle(String)
-+ void setYear(int)
-+ void initEntity()
-+ void addOne()
-+ void updateOne(String,String)
-+ Entity searchEntity(int)
-+ ObservableList<Entity> listAll()
+class com.jdbcfx.Controller {
+- Button searchbtn
+- TableView<Music> table
+- TextField idTxt
+~ ObservableList<Music> data
+~ String[] cols
++ void listAll(ActionEvent)
++ void listOne(ActionEvent)
++ void loadAll(Entity)
++ void loadOne(Entity,int)
+- void errorWarning(String)
 }
-abstract class com.example.jdbcfx.Entity {
+class com.jdbcfx.MusicData {
++ void insertRow(Entity)
++ void updataRow(Entity)
++ void setData()
++ ArrayList<String[]> selectTable()
++ String[] selectById(int)
++ void commitChange()
+}
+class com.jdbcfx.Application {
++ void start(Stage)
++ {static} void main(String[])
+}
+class com.jdbcfx.DatabaseConfig {
+- {static} String PROPERTIES_FILE
+- {static} Properties properties
++ {static} String getDriver()
++ {static} String getUrl()
++ {static} String getUser()
++ {static} String getPassword()
+}
+abstract class com.jdbcfx.Entity {
 ~ DataAccess dataAccess
 ~ int nVars
 ~ String[] varNames
@@ -31,31 +44,7 @@ abstract class com.example.jdbcfx.Entity {
 + {abstract}Entity searchEntity(int)
 + {abstract}ObservableList listAll()
 }
-class com.example.jdbcfx.Application {
-+ void start(Stage)
-+ {static} void main(String[])
-}
-class com.example.jdbcfx.MusicData {
-+ void insertRow(Entity)
-+ void updataRow(Entity)
-+ void setData()
-+ ArrayList<String[]> selectTable()
-+ String[] selectById(int)
-+ void commitChange()
-}
-class com.example.jdbcfx.Controller {
-- Button searchbtn
-- TableView<Music> table
-- TextField idTxt
-~ ObservableList<Music> data
-~ String[] cols
-+ void listAll(ActionEvent)
-+ void listOne(ActionEvent)
-+ void loadAll(Entity)
-+ void loadOne(Entity,int)
-- void errorWarning(String)
-}
-abstract class com.example.jdbcfx.DataAccess {
+abstract class com.jdbcfx.DataAccess {
 - String DRIVER
 - String DATABASE_URL
 - String USERNAME
@@ -81,9 +70,28 @@ abstract class com.example.jdbcfx.DataAccess {
 + {abstract}String[] selectById(int)
 + {abstract}void commitChange()
 }
+class com.jdbcfx.Music {
+- int id
+- int singer
+- String title
+- int year
++ int getId()
++ int getSinger()
++ String getTitle()
++ int getYear()
++ void setId(int)
++ void setSinger(int)
++ void setTitle(String)
++ void setYear(int)
++ void initEntity()
++ void addOne()
++ void updateOne(String,String)
++ Entity searchEntity(int)
++ ObservableList<Entity> listAll()
+}
 
 
-com.example.jdbcfx.Entity <|-- com.example.jdbcfx.Music
-com.example.jdbcfx.Application <|-- com.example.jdbcfx.Application
-com.example.jdbcfx.DataAccess <|-- com.example.jdbcfx.MusicData
+com.jdbcfx.DataAccess <|-- com.jdbcfx.MusicData
+com.jdbcfx.Application <|-- com.jdbcfx.Application
+com.jdbcfx.Entity <|-- com.jdbcfx.Music
 @enduml

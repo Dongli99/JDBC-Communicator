@@ -1,7 +1,9 @@
-package com.jdbcfx;
+package com.jdbcfx.entity;
 
+import com.jdbcfx.data.MusicData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 
 public class Music extends Entity{
 
@@ -23,6 +25,7 @@ public class Music extends Entity{
         singer = (int) dataAccess.parseData(1, record[1]);
         title = (String) dataAccess.parseData(2, record[2]);
         year = (int) dataAccess.parseData(3, record[3]);
+        update = new Button("update");
     }
 
     public Music(int id, int singer, String title, int year){
@@ -31,6 +34,7 @@ public class Music extends Entity{
         this.singer = singer;
         this.title = title;
         this.year = year;
+        update = new Button("update");
     }
 
     // Getters and Setters
@@ -50,8 +54,8 @@ public class Music extends Entity{
         if (dataAccess == null) // check if the connection has been built
             dataAccess = new MusicData();
         if (nVars==0){
-            nVars = 4;
-            varNames = dataAccess.colNames;
+            nVars = 5;
+            varNames = dataAccess.getColNames();
         }
     }
 
@@ -95,12 +99,8 @@ public class Music extends Entity{
         // create the list of allEntities
         allEntities = FXCollections.observableArrayList();
         dataAccess.selectTable();
-        for (String[] record: dataAccess.data) {
-            Music music = new Music();
-            music.setId((int) dataAccess.parseData(0, record[0]));
-            music.setSinger((int) dataAccess.parseData(1, record[1]));
-            music.setTitle((String) dataAccess.parseData(2, record[2]));
-            music.setYear((int) dataAccess.parseData(3, record[3]));
+        for (String[] record: dataAccess.getData()) {
+            Music music = new Music(record);
             allEntities.add(music);
         }
         return allEntities;

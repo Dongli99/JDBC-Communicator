@@ -1,9 +1,11 @@
-package com.jdbcfx;
+package com.jdbcfx.data;
 
+import com.jdbcfx.entity.Entity;
+import com.jdbcfx.entity.Music;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MusicData extends DataAccess{
+public class MusicData extends DataAccess {
     // -- This class is the concrete class of DataAccess representing data of the Music Entity
 
     // Constructor

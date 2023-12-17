@@ -1,4 +1,7 @@
-package com.jdbcfx;
+package com.jdbcfx.data;
+
+import com.jdbcfx.config.DatabaseConfig;
+import com.jdbcfx.entity.Entity;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,7 +9,7 @@ import java.util.ArrayList;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
-abstract class DataAccess {
+public abstract class DataAccess {
     // -- This abstract class will handle the connection to database --
 
     // JDBC secret strings
@@ -16,17 +19,34 @@ abstract class DataAccess {
     private final String PASSWORD = DatabaseConfig.getPassword();
 
     // JDBC variables
-    Connection conn;
-    Statement st;
-    PreparedStatement selectAllPst, selectWherePst, insertPst, updatePst;
-    ResultSet rs;
-    ResultSetMetaData md;
+    protected Connection conn;
+    protected Statement st;
+    protected PreparedStatement selectAllPst, selectWherePst, insertPst, updatePst;
+    protected ResultSet rs;
+    protected ResultSetMetaData md;
 
     // Instance variables
     String[] colNames;
     ArrayList<String[]> data; // store all the data
     int nCols;
     int[] dataTypes;
+
+    // Getters
+    public String[] getColNames() {
+        return colNames;
+    }
+
+    public ArrayList<String[]> getData() {
+        return data;
+    }
+
+    public int getnCols() {
+        return nCols;
+    }
+
+    public int[] getDataTypes() {
+        return dataTypes;
+    }
 
     // Constructor
     public DataAccess(){
@@ -65,12 +85,13 @@ abstract class DataAccess {
         try {
             md = rs.getMetaData();
             nCols = md.getColumnCount();
-            colNames = new String[nCols];
+            colNames = new String[nCols+1];
             dataTypes = new int[nCols];
             for (int i = 0; i < nCols; i++) {
                 colNames[i] = md.getColumnName(i+1).toLowerCase();
                 dataTypes[i] = md.getColumnType(i+1);
             }
+            colNames[nCols] = "update";
         } catch (SQLException e) {
             System.out.println("Result MetaData failed to obtain");
             e.printStackTrace();

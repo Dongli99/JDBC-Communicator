@@ -1,10 +1,12 @@
-package com.jdbcfx;
+package com.jdbcfx.entity;
 
+import com.jdbcfx.data.DataAccess;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 
-abstract class Entity {
+public abstract class Entity {
     // -- This abstract class will be the blueprint of entities --
-
+    protected Button update;
     // Instance Variable
     DataAccess dataAccess; // the dataAccess will be a bridge between Entity and database
     int nVars;
@@ -16,6 +18,7 @@ abstract class Entity {
     public Entity(String[] records){}
 
     // Getters
+    public Button getUpdate() { return update; }
     public int getnVars() { return nVars; }
     public String[] getVarNames() { return varNames; }
 
